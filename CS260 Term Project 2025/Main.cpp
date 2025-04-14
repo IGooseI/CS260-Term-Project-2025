@@ -278,10 +278,15 @@ public:
 };
 class CheckingAccount : public Account
 {
+	double overDraftLimit;
 
 public:
-
 	// Constructors
+	CheckingAccount() : Account()
+	{
+		overDraftLimit = 0;
+	}
+	CheckingAccount(double _overDraftLimit, string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer) : Account()
 
 	// Setters
 
