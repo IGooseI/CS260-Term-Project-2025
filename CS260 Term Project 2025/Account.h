@@ -13,7 +13,8 @@ class Account : public Customer
 public:
 	// Constructors
 	Account();
-	Account(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer);
+	Account(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, 
+		int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer);
 	// Setters
 	void setID(int _ID);
 	void setBalance(double _balance);
