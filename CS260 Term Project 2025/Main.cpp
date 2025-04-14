@@ -46,6 +46,44 @@ public:
 	{
 		return overDraftLimit;
 	}
+	// Functions
+	void withdrawMoney(double amount)
+	{
+		if (balance < amount)
+		{
+			cout << "There is not enough Funds to withdraw $" << amount << " from Account ID: " << ID << endl;
+		}
+		else if (balance == amount)
+		{
+			char opt;
+			cout << "The Amount you are trying to Withdraw is equal to the amount in the Account. Would you Still like to Withdraw (Enter y or n)" << endl;
+			if (opt == 'y' || opt == 'Y')
+			{
+				balance -= amount;
+				withdrawalCounter++;
+				cout << "You've successfully Withdrawn $" << amount << "from Account ID: " << ID << endl;
+				cout << "Your balance is now: $" << balance << endl;
+			}
+			else if (opt == 'n' || opt == 'N')
+			{
+				cout << "Okay... Your Balance is: $" << balance << endl;
+				return;
+			}
+			else
+			{
+				cout << "Invalid Entry..." << endl;
+				return;
+			}
+		}
+		else if (balance >= amount)
+		{
+			balance -= amount;
+			withdrawalCounter++;
+			cout << "You've successfully Withdrawn $" << amount << "from Account ID: " << ID << endl;
+			cout << "Your balance is now: $" << balance << endl;
+		}
+	}
+
 };
 class SavingAccount : public Account
 {
