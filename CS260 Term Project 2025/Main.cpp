@@ -49,6 +49,7 @@ public:
 };
 class SavingAccount : public Account
 {
+	
 public:
 	// Constructors
 
@@ -60,6 +61,50 @@ int main()
 {
 	//Customer customer1{1, "Iver" , "Gustafson", "2800 University Blvd", "484-374-8955", "igustaf@jacksonville.edu"};
 	//customer1.PrintInfo();
+	int choice;
+	do
+	{
+		switch (choice)
+		{
+			case 1:
+
+
+				break;
+			case 2:
+
+
+				break;
+			case 3:
+
+
+				break;
+			case 4:
+
+
+				break;
+			case 5:
+
+
+				break;
+			case 6:
+
+
+				break;
+			case 7:
+
+
+				break;
+		default:
+			cout << "Invalid Choice Selection." << endl;
+			break;
+		}
+
+
+		
+	
+
+	} while (choice != 7);
+	
 
 	return 0;
 }
