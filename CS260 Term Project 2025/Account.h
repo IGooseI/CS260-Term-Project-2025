@@ -5,6 +5,9 @@
 
 class Account : public Customer
 {
+
+protected:
+
 	int ID;
 	double balance;
 	int withdrawalCounter = 0;
