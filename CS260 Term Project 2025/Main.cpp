@@ -19,7 +19,7 @@ public:
 	// Constructors
 	SavingAccount() : Account()
 	{
-		interestRate = 0;
+		interestRate = 7;
 	}
 	SavingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, double _interestRate) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance,
 		_withdrawalCounter, _depositsCounter, _accountCustomer)
@@ -45,6 +45,28 @@ public:
 	}
 	// Functions
 	void payInterestRate()
+	{
+		balance += (balance * interestRate);
+	}
+	void transfer(double & amount, SavingAccount destinationAccount)
+	{
+		if (balance > amount)
+		{
+			destinationAccount.balance += amount;
+			balance -= amount;
+			cout << "You've Successfully Transferred $" << amount << " to ID: " << destinationAccount.getID() << " from ID: " << getID() << endl;
+		}
+		else if (balance < amount)
+		{
+			cout << "You do not have enough Money in your account to transfer. Please Try Another Account or Deposit." << endl;
+			return;
+		}
+		else
+		{
+			cout << "Invalid Entry...Retry" << endl;
+			return;
+		}
+	}
 };
 int main()
 {
