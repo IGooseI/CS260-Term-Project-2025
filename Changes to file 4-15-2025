@@ -1,0 +1,45 @@
+//Add this to the main 
+int MAX_NUM = 10;
+	Customer customerList[10];
+	CheckingAccount customerChecking[10];
+	SavingAccount customerSaving[10];
+
+	int choice;
+	do
+	{
+		cout << "Main Menu" << endl;
+		cout << "1. Create a checking account" << endl;
+		cout << "2. Create a saving account" << endl; 
+		cout << "3. View account information" << endl; 
+		cout << "4. Modifying account" << endl;
+		cout << "5. Delete account" << endl; 
+		cout << "6. Transfer between accounts" << endl; 
+		cout << "7. Exit the program" << endl; 
+		cout << "Enter your choice : ";
+		cin >> choice;
+
+//Add to customer.cpp
+Customer::Customer()
+{
+	firstName = "";
+	lastName = "";
+	address = "";
+	phone = "";
+	email = "";
+}
+//Add to customer.h
+	Customer();
+// add to checkingacount.cpp
+CheckingAccount::CheckingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance,
+		int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, double _overDraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance,
+			_withdrawalCounter, _depositsCounter, _accountCustomer)
+	{
+		// Input Validation
+		if (_overDraftLimit > 0)
+			overDraftLimit = _overDraftLimit;
+		else
+			overDraftLimit = 0;
+			
+	}
+// add to checkingaccount.h
+	CheckingAccount();
