@@ -1,8 +1,6 @@
 #include "CheckingAccount.h"
 	// Constructors
-	CheckingAccount::CheckingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance,
-		int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance,
-			_withdrawalCounter, _depositsCounter, _accountCustomer)
+	CheckingAccount::CheckingAccount() : Account()
 	{
 		overDraftLimit = 200;
 	}
@@ -35,7 +33,7 @@
 	{
 		if (balance < amount)
 		{
-			char opt;
+			char opt = ' ';
 			cout << "There is not enough Funds to withdraw $" << amount << " from Account ID: " << ID << endl;
 			cout << "Would you like to use OverDraft? (Enter Y or N): " << endl;
 			if (opt == 'y' || opt == 'Y')
@@ -60,7 +58,7 @@
 		}
 		else if (balance == amount)
 		{
-			char opt;
+			char opt = ' ';
 			cout << "The Amount you are trying to Withdraw is equal to the amount in the Account. Would you Still like to Withdraw (Enter y or n)" << endl;
 			if (opt == 'y' || opt == 'Y')
 			{
@@ -88,4 +86,5 @@
 			cout << "You've successfully Withdrawn $" << amount << "from Account ID: " << ID << endl;
 			cout << "Your balance is now: $" << balance << endl;
 		}
+	}
 	

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <fstream>
 #include "Customer.h"
 #include "Account.h"
 #include "CheckingAccount.h"
@@ -10,71 +11,117 @@ using namespace std;
 // Reminders:
 // *Input Validation
 // *Const on Getters
-
-
-class SavingAccount : public Account
+// *Use of Constructors
+// Maybe make a randomly generated password for the password system class using cstdlib and rand functions
+// Transaction History File system using fstream library
+// Do the Main
+// IMPORTANT!! Check Blackboard for what Sarraf wants involving pointers and dynamic memory allocation
+class PasswordSystem
 {
-	double interestRate;
+	string password;
+protected:
+	void setPassword(string _password)
+	{
+		password = _password;
+	}
 public:
-	// Constructors
-	SavingAccount() : Account()
+	PasswordSystem()
 	{
-		interestRate = 7;
+		password = "";
 	}
-	SavingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, double _interestRate) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance,
-		_withdrawalCounter, _depositsCounter, _accountCustomer)
+	PasswordSystem(string _password)
 	{
-		interestRate = _interestRate;
+		password = _password;
 	}
-	// Setters
-	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, double _interestRate)
+	string getPassword() const
 	{
-		interestRate = _interestRate;
-		_accountCustomer.setAll(_firstName, _lastName, _address, _phone, _email);
-		Account::setAll(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawalCounter, _depositsCounter, _accountCustomer);
-		setAccountCustomer(_accountCustomer);
+		return password;
 	}
-	void setInterestRate(double _interestRate)
+	bool checkPassword(string _password) const
 	{
-		interestRate = _interestRate;
-	}
-	// Getters
-	double getInterestRate() const
-	{
-		return interestRate;
-	}
-	// Functions
-	void payInterestRate()
-	{
-		balance += (balance * interestRate);
-	}
-	void transfer(double & amount, SavingAccount destinationAccount)
-	{
-		if (balance > amount)
-		{
-			destinationAccount.balance += amount;
-			balance -= amount;
-			cout << "You've Successfully Transferred $" << amount << " to ID: " << destinationAccount.getID() << " from ID: " << getID() << endl;
-		}
-		else if (balance < amount)
-		{
-			cout << "You do not have enough Money in your account to transfer. Please Try Another Account or Deposit." << endl;
-			return;
-		}
+		if (_password == password)
+			return true;
 		else
-		{
-			cout << "Invalid Entry...Retry" << endl;
-			return;
-		}
+			return false;
 	}
+};
+class Manager : public Account, protected PasswordSystem
+{
+	string username, userPassword;
+protected:
+	void setUsername(string _username)
+	{
+		username = _username;
+	}
+	void setUserPassword(string _userPassword)
+	{
+		userPassword = _userPassword;
+	}
+
+public:
+	Manager()
+	{
+		username = "";
+		userPassword = "";
+	}
+	Manager(string _username, string _userPassword)
+	{
+		username = _username;
+		userPassword = _userPassword;
+	}
+	string getUsername() const
+	{
+		return username;
+	}
+	string getUserPassword() const
+	{
+		return userPassword;
+	}
+	bool checkUserPassword(string _userPassword) const
+	{
+		if (_userPassword == userPassword)
+			return true;
+		else
+			return false;
+	}
+	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance,
+		int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, string _username, string _userPassword)
+	{
+		Account::setAll(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawalCounter, _depositsCounter, _accountCustomer);
+		setUsername(_username);
+		setUserPassword(_userPassword);
+	}
+
+
 };
 int main()
 {
 	//Customer customer1{1, "Iver" , "Gustafson", "2800 University Blvd", "484-374-8955", "igustaf@jacksonville.edu"};
 	//customer1.PrintInfo();
-	int choice;
-	do
+
+	int MAX_NUM = 10;
+	Customer customerList[10];
+	CheckingAccount customerChecking[10];
+	SavingAccount customerSaving[10];
+		
+		
+	int choice = 0;
+		
+	do		
 	{
+				
+		cout << "\n" << setw(30) << setfill('=') << "=" << endl;
+		cout << "\n" << setfill(' ') << setw(20) << left << "Banking System Menu" << endl;
+		cout << setw(30) << setfill('-') << "-" << endl;
+		cout << "1. Create Checking Account" << endl;
+		cout << "2. Create Saving Account" << endl;
+		cout << "3. Modify Account" << endl;
+		cout << "4. View Account" << endl;
+		cout << "5. Transfer Funds" << endl;
+		cout << "6. Exit Program" << endl;
+		cout << setw(30) << setfill('=') << "=" << "\n";
+		cout << "Enter your choice: ";
+			cin >> choice;
 		switch (choice)
 		{
 			case 1:
@@ -102,20 +149,16 @@ int main()
 
 				break;
 			case 7:
+			cout << "Invalid Choice Selection." << endl;
 
 
 				break;
 		default:
-			cout << "Invalid Choice Selection." << endl;
+			system("cls");
 			break;
 		}
-
-
-		
-	
-
 	} while (choice != 7);
 	
-
+	system("pause");
 	return 0;
 }

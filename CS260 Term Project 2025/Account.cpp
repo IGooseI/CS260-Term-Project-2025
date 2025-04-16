@@ -135,7 +135,7 @@ void Account::withdrawMoney(double amount)
 	}
 	else if (balance == amount)
 	{
-		char opt;
+		char opt = ' ';
 		cout << "The Amount you are trying to Withdraw is equal to the amount in the Account. Would you Still like to Withdraw (Enter y or n)" << endl;
 		if (opt == 'y' || opt == 'Y')
 		{
