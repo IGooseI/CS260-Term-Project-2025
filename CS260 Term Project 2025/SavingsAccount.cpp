@@ -5,13 +5,15 @@
 	{
 		interestRate = 7;
 	}
-	SavingAccount::SavingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, double _interestRate) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance,
-		_withdrawalCounter, _depositsCounter, _accountCustomer)
+	SavingAccount::SavingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance,
+		int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, double _interestRate) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance,
+		_withdrawalCounter, _depositsCounter,_accountCustomer)
 	{
 		interestRate = _interestRate;
 	}
 	// Setters
-	void SavingAccount::setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, double _interestRate)
+	void SavingAccount::setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance,
+		int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, double _interestRate)
 	{
 		interestRate = _interestRate;
 		_accountCustomer.setAll(_firstName, _lastName, _address, _phone, _email);
