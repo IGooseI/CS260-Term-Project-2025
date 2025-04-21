@@ -1,42 +1,49 @@
 #include "Manager.h"
 
-void Manager::setUsername(string _username)
-{
-	username = _username;
-}
-void Manager::setUserPassword(string _userPassword)
-{
-	userPassword = _userPassword;
-}
+// Constructors
 Manager::Manager()
 {
-	username = "";
-	userPassword = "";
+    username = "";
+    password = "";
 }
-Manager::Manager(string _username, string _userPassword)
+
+Manager::Manager(string _username, string _password)
 {
-	username = _username;
-	userPassword = _userPassword;
+    username = _username;
+    password = _password;
 }
+
+// Setters
+void Manager::setUsername(string _username)
+{
+    username = _username;
+}
+
+void Manager::setUserPassword(string _password)
+{
+    setPassword(_password);
+}
+
+// Getters
 string Manager::getUsername() const
 {
-	return username;
+    return username;
 }
+
 string Manager::getUserPassword() const
 {
-	return userPassword;
+    return password;
 }
-bool Manager::checkUserPassword(string _userPassword) const
+
+// Validator
+bool Manager::checkUserPassword(string _password) const
 {
-	if (_userPassword == userPassword)
-		return true;
-	else
-		return false;
+    return checkPassword(_password);
 }
-void Manager::setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance,
-	int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, string _username, string _userPassword)
+
+// Set all
+void Manager::setAll(string _username, string _password)
 {
-	Account::setAll(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawalCounter, _depositsCounter, _accountCustomer);
-	setUsername(_username);
-	setUserPassword(_userPassword);
+    setUsername(_username);
+    setPassword(_password);
 }

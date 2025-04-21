@@ -1,25 +1,33 @@
 #pragma once
 #ifndef _Manager_
 #define _Manager_
+
 #include "Account.h"
 #include "PasswordSystem.h"
+#include <string>
+using namespace std;
 
-class Manager : public Account, protected PasswordSystem
+class Manager : public PasswordSystem
 {
-	string username, userPassword;
-protected:
-	void setUsername(string _username);
-	void setUserPassword(string _userPassword);
+private:
+    string username;
 
 public:
-	Manager();
-	Manager(string _username, string _userPassword);
-	string getUsername() const;
-	string getUserPassword() const;
-	bool checkUserPassword(string _userPassword) const;
-	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance,
-		int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, string _username, string _userPassword);
+    // Constructors
+    Manager();
+    Manager(string _username, string _password);
 
+    // Setters
+    void setUsername(string _username);
+    void setUserPassword(string _password); // alias to setPassword
+
+    // Getters
+    string getUsername() const;
+    string getUserPassword() const;
+
+    // Functions
+    bool checkUserPassword(string _password) const;
+    void setAll(string _username, string _password);
 };
 
 #endif // !_Manager_

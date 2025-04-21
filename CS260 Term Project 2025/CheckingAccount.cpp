@@ -1,90 +1,101 @@
 #include "CheckingAccount.h"
-	// Constructors
-	CheckingAccount::CheckingAccount() : Account()
-	{
-		overDraftLimit = 200;
-	}
-	CheckingAccount::CheckingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance,
-		int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, double _overDraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance,
-			_withdrawalCounter, _depositsCounter, _accountCustomer)
-	{
-		overDraftLimit = _overDraftLimit; 
-	}
-	// Setters
-	void CheckingAccount::setOverDraftLimit(double _overDraftLimit)
-	{
-		overDraftLimit = _overDraftLimit; 
-	}
-	void CheckingAccount::setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance,
-		int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer, double _overDraftLimit)
-	{
-		setOverDraftLimit(_overDraftLimit);
-		_accountCustomer.setAll(_firstName, _lastName, _address, _phone, _email);
-		Account::setAll(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawalCounter, _depositsCounter, _accountCustomer);
-		setAccountCustomer(_accountCustomer);
-	}
-	// Getters
-	double CheckingAccount::getOverDraftLimit() const
-	{
-		return overDraftLimit;
-	}
-	// Functions
-	void CheckingAccount::withdrawMoney(double amount)
-	{
-		if (balance < amount)
-		{
-			char opt = ' ';
-			cout << "There is not enough Funds to withdraw $" << amount << " from Account ID: " << ID << endl;
-			cout << "Would you like to use OverDraft? (Enter Y or N): " << endl;
-			if (opt == 'y' || opt == 'Y')
-			{
-				if ((balance - amount) > overDraftLimit)
-					balance -= (amount + 20); // $20 Overdraft Fee
-				withdrawalCounter++;
-				overDraftLimit -= 20;
-				cout << "You've successfully Withdrawn $" << amount << "from Account ID: " << ID << endl;
-				cout << "Your balance is now: $" << balance << endl;
-			}
-			else if (opt == 'n' || opt == 'N')
-			{
-				cout << "Okay... Your Balance is: $" << balance << endl;
-				return;
-			}
-			else
-			{
-				cout << "Invalid Entry..." << endl;
-				return;
-			}
-		}
-		else if (balance == amount)
-		{
-			char opt = ' ';
-			cout << "The Amount you are trying to Withdraw is equal to the amount in the Account. Would you Still like to Withdraw (Enter y or n)" << endl;
-			if (opt == 'y' || opt == 'Y')
-			{
-				balance -= (amount + 20); // $20 Overdraft Fee
-				overDraftLimit -= 20;
-				withdrawalCounter++;
-				cout << "You've successfully Withdrawn $" << amount << "from Account ID: " << ID << endl;
-				cout << "Your balance is now: $" << balance << endl;
-			}
-			else if (opt == 'n' || opt == 'N')
-			{
-				cout << "Okay... Your Balance is: $" << balance << endl;
-				return;
-			}
-			else
-			{
-				cout << "Invalid Entry..." << endl;
-				return;
-			}
-		}
-		else if (balance >= amount)
-		{
-			balance -= amount;
-			withdrawalCounter++;
-			cout << "You've successfully Withdrawn $" << amount << "from Account ID: " << ID << endl;
-			cout << "Your balance is now: $" << balance << endl;
-		}
-	}
-	
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+// Constructors
+CheckingAccount::CheckingAccount() : Account()
+{
+    overDraftLimit = 200.0;
+}
+
+CheckingAccount::CheckingAccount(int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer* _accountCustomer, double _overDraftLimit)
+    : Account(_ID, _balance, _withdrawalCounter, _depositsCounter, _accountCustomer)
+{
+    setOverDraftLimit(_overDraftLimit);
+}
+
+// Setters
+void CheckingAccount::setOverDraftLimit(double _overDraftLimit)
+{
+    if (_overDraftLimit >= 0)
+        overDraftLimit = _overDraftLimit;
+    else
+    {
+        cout << "Invalid overdraft limit. Setting to $0.\n";
+        overDraftLimit = 0;
+    }
+}
+
+void CheckingAccount::setAll(int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer* _accountCustomer, double _overDraftLimit)
+{
+    Account::setAll(_ID, _balance, _withdrawalCounter, _depositsCounter, _accountCustomer);
+    setOverDraftLimit(_overDraftLimit);
+}
+
+// Getters
+double CheckingAccount::getOverDraftLimit() const
+{
+    return overDraftLimit;
+}
+
+// Overridden withdraw function with overdraft protection
+void CheckingAccount::withdrawMoney(double amount)
+{
+    if (amount <= 0)
+    {
+        cout << "Invalid withdrawal amount.\n";
+        return;
+    }
+
+    if (balance >= amount)
+    {
+        balance -= amount;
+        withdrawalCounter++;
+        cout << "Withdrew $" << fixed << setprecision(2) << amount << " from Account ID " << ID << ".\n";
+    }
+    else
+    {
+        double overdraftNeeded = amount - balance;
+
+        if (overdraftNeeded <= overDraftLimit)
+        {
+            char confirm;
+            cout << "Insufficient balance, but you can use overdraft.\n";
+            cout << "Use $" << fixed << setprecision(2) << overdraftNeeded << " of overdraft (plus $20 fee)? (y/n): ";
+            cin >> confirm;
+
+            if (confirm == 'y' || confirm == 'Y')
+            {
+                if (overDraftLimit >= overdraftNeeded + 20)
+                {
+                    balance -= amount;
+                    balance -= 20; // overdraft fee
+                    overDraftLimit -= (overdraftNeeded + 20);
+                    withdrawalCounter++;
+                    cout << "Overdraft used. $" << amount << " withdrawn plus $20 fee. New balance: $" << balance
+                        << ". Remaining overdraft limit: $" << overDraftLimit << "\n";
+                }
+                else
+                {
+                    cout << "Not enough overdraft limit available to cover fee. Withdrawal denied.\n";
+                }
+            }
+            else
+            {
+                cout << "Withdrawal canceled.\n";
+            }
+        }
+        else
+        {
+            cout << "Overdraft limit insufficient to cover this withdrawal.\n";
+        }
+    }
+}
+
+// PrintInfo override
+void CheckingAccount::PrintInfo() const
+{
+    Account::PrintInfo();
+    cout << "Overdraft Limit    : $" << fixed << setprecision(2) << overDraftLimit << "\n";
+}

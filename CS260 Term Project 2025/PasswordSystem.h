@@ -1,21 +1,28 @@
 #pragma once
 #ifndef _PasswordSystem_
 #define _PasswordSystem_
-#include <iostream>
-#include <iomanip>
+
 #include <string>
 using namespace std;
 
 class PasswordSystem
 {
-	string password;
 protected:
-	void setPassword(string _password);
+    string password;
+
 public:
-	PasswordSystem();
-	PasswordSystem(string _password);
-	string getPassword() const;
-	bool checkPassword(string _password) const;
+    // Constructors
+    PasswordSystem();
+    PasswordSystem(string _password);
+
+    // Setter
+    void setPassword(string _password);
+
+    // Getter
+    string getPassword() const;
+
+    // Validation
+    bool checkPassword(const string& _password) const;
 };
 
 #endif // !_PasswordSystem_

@@ -1,165 +1,145 @@
 #include "Account.h"
+#include <iostream>
+#include <iomanip>
+using namespace std;
 
 // Constructors
-Account::Account() : Customer()
+Account::Account()
 {
-	ID = 0;
-	balance = 0;
-	withdrawalCounter = 0;
-	depositsCounter = 0;
-	accountCustomer.setAll("", "", "", "", "");
-
+    ID = -1;
+    balance = 0.0;
+    withdrawalCounter = 0;
+    depositsCounter = 0;
+    accountCustomer = nullptr;
 }
-Account::Account(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer) : Customer(_firstName, _lastName, _address, _phone, _email)
+
+Account::Account(int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer* _accountCustomer)
 {
-	if (ID >= 0 && ID <= 999)
-	{
-		ID = _ID;
-	}
-	else
-	{
-		cout << "ID is Invalid. Will be set to -1, Please Change." << endl;
-		ID = -1;
-	}
-	if (balance < 0)
-	{
-		cout << "Balance is Invalid." << endl;
-		balance = 0;
-	}
-	else
-		balance = _balance;
-	withdrawalCounter = _withdrawalCounter;
-	depositsCounter = _depositsCounter;
-	accountCustomer.setAll(_firstName, _lastName, _address, _phone, _email);
-
+    setAll(_ID, _balance, _withdrawalCounter, _depositsCounter, _accountCustomer);
 }
+
 // Setters
 void Account::setID(int _ID)
 {
-	if (ID >= 0 && ID <= 999)
-	{
-		ID = _ID;
-	}
-	else
-	{
-		cout << "ID is Invalid. Will be set to -1, Please Change." << endl;
-		ID = -1;
-	}
+    if (_ID >= 0 && _ID <= 999)
+        ID = _ID;
+    else
+    {
+        cout << "Invalid ID. Setting ID to -1.\n";
+        ID = -1;
+    }
 }
+
 void Account::setBalance(double _balance)
 {
-	if (balance < 0)
-	{
-		cout << "Balance is Invalid." << endl;
-		balance = 0;
-	}
-	else
-	{
-		balance = _balance;
-	}
+    if (_balance >= 0)
+        balance = _balance;
+    else
+    {
+        cout << "Invalid balance. Setting balance to 0.\n";
+        balance = 0;
+    }
 }
+
 void Account::setWithdrawalCounter(int _withdrawalCounter)
 {
-	withdrawalCounter = _withdrawalCounter;
+    withdrawalCounter = _withdrawalCounter;
 }
+
 void Account::setDepositsCounter(int _depositsCounter)
 {
-	depositsCounter = _depositsCounter;
+    depositsCounter = _depositsCounter;
 }
-void Account::setAccountCustomer(Customer _accountCustomer)
+
+void Account::setAccountCustomer(Customer* _accountCustomer)
 {
-	accountCustomer = _accountCustomer;
+    accountCustomer = _accountCustomer;
 }
+
 // Getters
-int Account::getID() const
-{
-	return ID;
+int Account::getID() const 
+{ 
+    return ID; 
 }
-double Account::getBalance() const
+double Account::getBalance() const 
 {
-	return balance;
+    return balance; 
 }
-int Account::getWithdrawalCounter() const
+int Account::getWithdrawalCounter() const 
+{ 
+    return withdrawalCounter; 
+}
+int Account::getDepositsCounter() const 
+{ 
+    return depositsCounter; 
+}
+Customer* Account::getAccountCustomer() const
+{ 
+    return accountCustomer; 
+}
+
+// setAll function
+void Account::setAll(int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer* _accountCustomer)
 {
-	return withdrawalCounter;
+    setID(_ID);
+    setBalance(_balance);
+    setWithdrawalCounter(_withdrawalCounter);
+    setDepositsCounter(_depositsCounter);
+    setAccountCustomer(_accountCustomer);
 }
-int Account::getDepositsCounter() const
-{
-	return depositsCounter;
-}
-Customer Account::getAccountCustomer() const
-{
-	return accountCustomer;
-}
-// Functions
-void Account::setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawalCounter, int _depositsCounter, Customer _accountCustomer)
-{
-	if (ID >= 0 && ID <= 999)
-	{
-		ID = _ID;
-	}
-	else
-	{
-		cout << "ID is Invalid. Will be set to -1, Please Change." << endl;
-		ID = -1;
-	}
-	if (balance < 0)
-	{
-		cout << "Balance is Invalid." << endl;
-		balance = 0;
-	}
-	else
-		balance = _balance;
-	withdrawalCounter = _withdrawalCounter;
-	depositsCounter = _depositsCounter;
-	accountCustomer.setAll(getFirstName(), getLastName(), getAddress(), getPhone(), getEmail());
-}
+
+// depositMoney
 void Account::depositMoney(double amount)
 {
-	if (amount < 0)
-	{
-		cout << "Cannot Deposit less than 0." << endl;
-	}
-	else
-	{
-		balance += amount;
-		depositsCounter++;
-		cout << "You've Successfully Deposited $" << amount << " into the Account ID: " << ID << endl;
-	}
+    if (amount <= 0)
+    {
+        cout << "Invalid deposit amount. Must be greater than 0.\n";
+        return;
+    }
+
+    balance += amount;
+    depositsCounter++;
+    cout << "Successfully deposited $" << fixed << setprecision(2) << amount << " to Account ID " << ID << ".\n";
 }
+
+// withdrawMoney
 void Account::withdrawMoney(double amount)
 {
-	if (balance < amount)
-	{
-		cout << "There is not enough Funds to withdraw $" << amount << " from Account ID: " << ID << endl;
-	}
-	else if (balance == amount)
-	{
-		char opt = ' ';
-		cout << "The Amount you are trying to Withdraw is equal to the amount in the Account. Would you Still like to Withdraw (Enter y or n)" << endl;
-		if (opt == 'y' || opt == 'Y')
-		{
-			balance -= amount;
-			withdrawalCounter++;
-			cout << "You've successfully Withdrawn $" << amount << "from Account ID: " << ID << endl;
-			cout << "Your balance is now: $" << balance << endl;
-		}
-		else if (opt == 'n' || opt == 'N')
-		{
-			cout << "Okay... Your Balance is: $" << balance << endl;
-			return;
-		}
-		else
-		{
-			cout << "Invalid Entry..." << endl;
-			return;
-		}
-	}
-	else if (balance >= amount)
-	{
-		balance -= amount;
-		withdrawalCounter++;
-		cout << "You've successfully Withdrawn $" << amount << "from Account ID: " << ID << endl;
-		cout << "Your balance is now: $" << balance << endl;
-	}
+    if (amount <= 0)
+    {
+        cout << "Invalid withdrawal amount.\n";
+        return;
+    }
+
+    if (balance >= amount)
+    {
+        balance -= amount;
+        withdrawalCounter++;
+        cout << "Successfully withdrew $" << fixed << setprecision(2) << amount << " from Account ID " << ID << ".\n";
+    }
+    else
+    {
+        cout << "Insufficient funds to withdraw $" << amount << " from Account ID " << ID << ".\n";
+    }
+}
+
+// PrintInfo
+void Account::PrintInfo() const
+{
+    cout << "\n======== Account Info ========\n";
+    cout << "Account ID       : " << ID << "\n";
+    cout << "Balance          : $" << fixed << setprecision(2) << balance << "\n";
+    cout << "Withdrawals Made : " << withdrawalCounter << "\n";
+    cout << "Deposits Made    : " << depositsCounter << "\n";
+    cout << "------------------------------\n";
+    if (accountCustomer)
+    {
+        cout << "Customer Information:\n";
+        accountCustomer->PrintInfo();
+    }
+    else
+    {
+        cout << "No customer assigned to this account.\n";
+    }
+    cout << "==============================\n";
 }
