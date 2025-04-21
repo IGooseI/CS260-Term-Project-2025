@@ -14,6 +14,8 @@ int main()
 {
     const int MAX_NUM = 100;
     const int MAX_NUM_C = 200;
+	const double MAX_OVERDRAFT = 200.0;
+	const double MAX_INTEREST_RATE = 0.05;
     Customer customerList[MAX_NUM_C];
     CheckingAccount customerChecking[MAX_NUM];
     SavingAccount customerSaving[MAX_NUM];
@@ -25,7 +27,7 @@ int main()
     int countSaving = 0;
     string _firstName, _lastName, _address, _phone, _email;
     int _ID, _withdrawalCounter, _depositsCounter;
-    double _balance, _overDraftLimit, _interestRate, transferAmount;
+    double _balance, transferAmount;
     int viewID;
 	string username, password;
 
@@ -61,11 +63,12 @@ int main()
             cout << "Enter Email: "; getline(cin, _email);
             cout << "Enter ID: "; cin >> _ID;
             cout << "Enter Balance: "; cin >> _balance;
-            cout << "Enter Overdraft Limit: "; cin >> _overDraftLimit;
             customerList[countCustomer].setAll(_firstName, _lastName, _address, _phone, _email);
-            customerChecking[countChecking].setAll(_ID, _balance, 0, 0, &customerList[countCustomer], _overDraftLimit);
+            customerChecking[countChecking].setAll(_ID, _balance, 0, 0, &customerList[countCustomer], MAX_OVERDRAFT);
             countCustomer++;
             countChecking++;
+            system("pause");
+            system("cls");
             break;
 
         case 2:
@@ -80,11 +83,12 @@ int main()
             cout << "Enter Email: "; getline(cin, _email);
             cout << "Enter ID: "; cin >> _ID;
             cout << "Enter Balance: "; cin >> _balance;
-            cout << "Enter Interest Rate (e.g. 0.05 for 5%): "; cin >> _interestRate;
             customerList[countCustomer].setAll(_firstName, _lastName, _address, _phone, _email);
-            customerSaving[countSaving].setAll(_ID, _balance, 0, 0, &customerList[countCustomer], _interestRate);
+            customerSaving[countSaving].setAll(_ID, _balance, 0, 0, &customerList[countCustomer], MAX_INTEREST_RATE);
             countCustomer++;
             countSaving++;
+            system("pause");
+            system("cls");
             break;
 
         case 3:
@@ -108,6 +112,8 @@ int main()
                     else customerSaving[i].withdrawMoney(transferAmount);
                 }
             }
+            system("pause");
+            system("cls");
             break;
 
         case 4:
@@ -126,6 +132,8 @@ int main()
                     customerSaving[i].PrintInfo();
                 }
             }
+            system("pause");
+            system("cls");
             break;
 
         case 5:
@@ -149,6 +157,8 @@ int main()
                     }
                 }
             }
+            system("pause");
+            system("cls");
             break;
 
         case 6:
@@ -157,6 +167,8 @@ int main()
                 customerSaving[i].payInterestRate();
             }
             cout << "Interest applied to all saving accounts.\n";
+            system("pause");
+            system("cls");
             break;
 
         case 7:
@@ -189,17 +201,25 @@ int main()
             {
                 cout << "Invalid username.\n";
             }
+            system("pause");
+            system("cls");
             break;
 
         case 8:
             cout << "Exiting program.\n";
+            system("pause");
+            system("cls");
             break;
 
         default:
             cout << "Invalid choice. Please try again.\n";
-        }
+            system("pause");
+            system("cls");       
+}
 
     } while (choice != 8);
+    system("pause");
+    system("cls");
 
     return 0;
 }

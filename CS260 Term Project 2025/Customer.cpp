@@ -27,7 +27,7 @@ void Customer::setAll(string _firstName, string _lastName, string _address, stri
 }
 
 void Customer::setFirstName(string _firstName)
-{
+{	
 	firstName = _firstName;
 }
 void Customer::setLastName(string _lastName)
