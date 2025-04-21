@@ -1,4 +1,3 @@
-// ================= MAIN.CPP =================
 #include <iostream>
 #include <string>
 #include <iomanip>
